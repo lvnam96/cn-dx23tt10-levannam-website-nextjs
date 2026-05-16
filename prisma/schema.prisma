@@ -18,3 +18,60 @@ model User {
 enum Role {
   ADMIN
 }
+
+model Post {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  content     String
+  excerpt     String?
+  category    String
+  coverImage  String?
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Room {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  artifacts   Artifact[]
+  createdAt   DateTime   @default(now())
+}
+
+model Artifact {
+  id          String                 @id @default(cuid())
+  name        String
+  description String?
+  category    String
+  images      String[]
+  featured    Boolean                @default(false)
+  room        Room?                  @relation(fields: [roomId], references: [id], onDelete: SetNull)
+  roomId      String?
+  exhibitions ArtifactOnExhibition[]
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+}
+
+model Exhibition {
+  id          String                 @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  coverImage  String?
+  artifacts   ArtifactOnExhibition[]
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+}
+
+model ArtifactOnExhibition {
+  artifact     Artifact   @relation(fields: [artifactId], references: [id], onDelete: Cascade)
+  artifactId   String
+  exhibition   Exhibition @relation(fields: [exhibitionId], references: [id], onDelete: Cascade)
+  exhibitionId String
+
+  @@id([artifactId, exhibitionId])
+}

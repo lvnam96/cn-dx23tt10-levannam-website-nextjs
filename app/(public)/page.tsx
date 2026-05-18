@@ -6,6 +6,12 @@ import { ArtifactCard } from '@/components/public/ArtifactCard'
 import { ExhibitionCard } from '@/components/public/ExhibitionCard'
 import { PostCard } from '@/components/public/PostCard'
 
+// ISR: regenerate at most hourly so time-based content (exhibitions passing
+// their endDate, newly published posts) self-heals even without an admin
+// mutation. Admin Server Actions (Days 5–6) will also revalidatePath('/') for
+// instant updates; the two are complementary.
+export const revalidate = 3600
+
 // Homepage keeps the layout's default title ("Đền thờ Bác", no template suffix);
 // adds an explicit description + OpenGraph for SEO/sharing.
 export const metadata: Metadata = {

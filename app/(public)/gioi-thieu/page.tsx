@@ -17,7 +17,7 @@ export default function AboutPage() {
       <PageHero
         title="Giới thiệu"
         subtitle="Lịch sử, sứ mệnh và thông tin tham quan."
-        image="https://placehold.co/1920x600?text=Gioi+thieu"
+        image="https://placehold.co/1920x600.png?text=Gioi+thieu"
         size="sm"
       />
       <article className="mx-auto max-w-prose px-4 py-16 leading-relaxed">

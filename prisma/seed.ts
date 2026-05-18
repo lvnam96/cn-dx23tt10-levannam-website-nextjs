@@ -8,8 +8,10 @@ const LOREM =
   'Đây là nội dung mẫu (placeholder). Nội dung thật sẽ được biên tập sau dựa trên ' +
   'tài liệu nghiên cứu về di tích. Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 
+// .png suffix forces a raster format — placehold.co's default is SVG, which
+// next/image rejects (400) without dangerouslyAllowSVG.
 const img = (w: number, h: number, text: string) =>
-  `https://placehold.co/${w}x${h}?text=${encodeURIComponent(text)}`
+  `https://placehold.co/${w}x${h}.png?text=${encodeURIComponent(text)}`
 
 const daysFromNow = (n: number) => new Date(Date.now() + n * 24 * 60 * 60 * 1000)
 

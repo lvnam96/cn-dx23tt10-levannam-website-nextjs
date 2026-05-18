@@ -24,7 +24,10 @@ const NAV_LINKS = [
 ]
 
 function isActive(pathname: string, href: string) {
-  return href === '/' ? pathname === '/' : pathname.startsWith(href)
+  if (href === '/') return pathname === '/'
+  // Exact match or a true sub-path — avoids a sibling like /hien-vat-abc
+  // wrongly activating /hien-vat.
+  return pathname === href || pathname.startsWith(`${href}/`)
 }
 
 export function Header() {

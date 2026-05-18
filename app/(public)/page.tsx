@@ -29,6 +29,7 @@ export default async function HomePage() {
     prisma.exhibition.findMany({
       where: { endDate: { gte: new Date() } },
       orderBy: { startDate: 'asc' },
+      take: 4,
     }),
     prisma.post.findMany({
       where: { published: true },
@@ -42,7 +43,7 @@ export default async function HomePage() {
       <PageHero
         title="Đền thờ Bác"
         subtitle="Di tích lịch sử — nơi lưu giữ và lan tỏa những giá trị thiêng liêng."
-        image="https://placehold.co/1920x800?text=Den+tho+Bac"
+        image="https://placehold.co/1920x800.png?text=Den+tho+Bac"
         cta={{ label: 'Tìm hiểu thêm', href: '/gioi-thieu' }}
       />
 
@@ -53,7 +54,7 @@ export default async function HomePage() {
               <ArtifactCard
                 key={a.id}
                 name={a.name}
-                image={a.images[0] ?? 'https://placehold.co/600x400'}
+                image={a.images[0] ?? 'https://placehold.co/600x400.png'}
                 category={a.category}
                 roomName={a.room?.name}
                 href={`/hien-vat/${a.id}`}
@@ -70,7 +71,7 @@ export default async function HomePage() {
               <ExhibitionCard
                 key={e.id}
                 title={e.title}
-                image={e.coverImage ?? 'https://placehold.co/800x450'}
+                image={e.coverImage ?? 'https://placehold.co/800x450.png'}
                 startDate={e.startDate}
                 endDate={e.endDate}
               />
@@ -87,7 +88,7 @@ export default async function HomePage() {
                 key={p.id}
                 title={p.title}
                 excerpt={p.excerpt}
-                image={p.coverImage ?? 'https://placehold.co/800x450'}
+                image={p.coverImage ?? 'https://placehold.co/800x450.png'}
                 href={`/tin-tuc/${p.slug}`}
                 publishedAt={p.publishedAt}
               />

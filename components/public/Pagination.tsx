@@ -31,7 +31,7 @@ export function Pagination({
   const edge = 'h-11 px-5'
   const disabledEdge = cn(
     edge,
-    'inline-flex items-center rounded-lg border border-border text-sm text-muted-foreground opacity-50',
+    'inline-flex cursor-not-allowed items-center rounded-lg border border-border text-sm text-muted-foreground opacity-50',
   )
 
   return (

@@ -5,14 +5,12 @@ import { SectionWrapper } from '@/components/public/SectionWrapper'
 import { ArtifactCard } from '@/components/public/ArtifactCard'
 import { FilterBar } from '@/components/public/FilterBar'
 import { Pagination } from '@/components/public/Pagination'
-import { ARTIFACTS_PER_PAGE } from '@/lib/constants'
+import { ARTIFACTS_PER_PAGE, ARTIFACT_CATEGORIES } from '@/lib/constants'
 
 export const metadata: Metadata = {
   title: 'Hiện vật',
   description: 'Bộ sưu tập hiện vật, tư liệu và hình ảnh tại di tích Đền thờ Bác.',
 }
-
-const CATEGORIES = ['Hiện vật gốc', 'Tư liệu', 'Hình ảnh']
 
 export default async function ArtifactListPage({
   searchParams,
@@ -66,7 +64,7 @@ export default async function ArtifactListPage({
               name: 'category',
               label: 'Loại',
               current: category,
-              options: CATEGORIES.map((c) => ({ value: c, label: c })),
+              options: ARTIFACT_CATEGORIES.map((c) => ({ value: c, label: c })),
             },
           ]}
         />

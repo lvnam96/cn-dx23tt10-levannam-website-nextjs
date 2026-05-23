@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 import { slugify } from '../lib/slugify'
+import { ARTIFACT_CATEGORIES, POST_CATEGORIES } from '../lib/constants'
 
 const prisma = new PrismaClient()
 
@@ -45,7 +46,7 @@ async function seedFeatures() {
     ),
   )
 
-  const categories = ['Hiện vật gốc', 'Tư liệu', 'Hình ảnh']
+  const categories = ARTIFACT_CATEGORIES
   const artifacts = await Promise.all(
     Array.from({ length: 10 }, (_, i) =>
       prisma.artifact.create({
@@ -61,7 +62,7 @@ async function seedFeatures() {
     ),
   )
 
-  const postCategories = ['Tin tức', 'Sự kiện', 'Nghiên cứu']
+  const postCategories = POST_CATEGORIES
   await Promise.all(
     Array.from({ length: 5 }, (_, i) => {
       const title = `Bài viết mẫu ${i + 1}`

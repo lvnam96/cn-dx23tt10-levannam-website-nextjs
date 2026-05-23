@@ -75,3 +75,30 @@ model ArtifactOnExhibition {
 
   @@id([artifactId, exhibitionId])
 }
+
+model TourGroup {
+  id          String     @id @default(cuid())
+  groupName   String
+  contactName String
+  phone       String
+  date        DateTime
+  size        Int
+  note        String?
+  status      TourStatus @default(PENDING)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+enum TourStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}

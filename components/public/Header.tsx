@@ -20,6 +20,7 @@ const NAV_LINKS = [
   { href: '/tin-tuc', label: 'Tin tức' },
   { href: '/hien-vat', label: 'Hiện vật' },
   { href: '/trien-lam', label: 'Triển lãm' },
+  { href: '/dang-ky-tham-quan', label: 'Đăng ký tham quan' },
   { href: '/lien-he', label: 'Liên hệ' },
 ]
 

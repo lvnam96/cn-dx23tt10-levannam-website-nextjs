@@ -29,3 +29,27 @@ export const contactSchema = z.object({
   message: requiredString('Nội dung').min(10, 'Nội dung tối thiểu 10 ký tự'),
 })
 export type ContactInput = z.infer<typeof contactSchema>
+
+export const postSchema = z.object({
+  title: requiredString('Tiêu đề'),
+  slug: requiredString('Slug').regex(
+    /^[a-z0-9-]+$/,
+    'Slug chỉ gồm chữ thường, số và dấu gạch ngang',
+  ),
+  excerpt: z.string().optional(),
+  category: requiredString('Danh mục'),
+  coverImage: z.string().optional(),
+  content: requiredString('Nội dung'),
+  published: z.boolean(),
+})
+export type PostInput = z.infer<typeof postSchema>
+
+export const artifactSchema = z.object({
+  name: requiredString('Tên hiện vật'),
+  description: z.string().optional(),
+  category: requiredString('Danh mục'),
+  roomId: z.string().optional(),
+  featured: z.boolean(),
+  images: z.array(z.url()),
+})
+export type ArtifactInput = z.infer<typeof artifactSchema>

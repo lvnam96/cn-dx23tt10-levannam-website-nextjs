@@ -59,3 +59,18 @@ export const roomSchema = z.object({
   description: z.string().optional(),
 })
 export type RoomInput = z.infer<typeof roomSchema>
+
+export const exhibitionSchema = z
+  .object({
+    title: requiredString('Tiêu đề'),
+    description: z.string().optional(),
+    startDate: requiredString('Ngày bắt đầu'),
+    endDate: requiredString('Ngày kết thúc'),
+    coverImage: z.string().optional(),
+    artifactIds: z.array(z.string()),
+  })
+  .refine((d) => new Date(d.endDate) >= new Date(d.startDate), {
+    message: 'Ngày kết thúc phải sau ngày bắt đầu',
+    path: ['endDate'],
+  })
+export type ExhibitionInput = z.infer<typeof exhibitionSchema>

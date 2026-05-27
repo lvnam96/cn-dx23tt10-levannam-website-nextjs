@@ -19,9 +19,11 @@ import {
 export function DeleteButton({
   onDelete,
   itemName,
+  description,
 }: {
   onDelete: () => Promise<{ success: true } | { error: string }>
   itemName?: string
+  description?: string
 }) {
   const [isPending, startTransition] = useTransition()
 
@@ -44,7 +46,8 @@ export function DeleteButton({
         <AlertDialogHeader>
           <AlertDialogTitle>Xác nhận xoá?</AlertDialogTitle>
           <AlertDialogDescription>
-            {itemName ? `Xoá "${itemName}". ` : ''}Hành động này không thể hoàn tác.
+            {itemName ? `Xoá "${itemName}". ` : ''}
+            {description ?? 'Hành động này không thể hoàn tác.'}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -53,3 +53,9 @@ export const artifactSchema = z.object({
   images: z.array(z.url()),
 })
 export type ArtifactInput = z.infer<typeof artifactSchema>
+
+export const roomSchema = z.object({
+  name: requiredString('Tên phòng'),
+  description: z.string().optional(),
+})
+export type RoomInput = z.infer<typeof roomSchema>

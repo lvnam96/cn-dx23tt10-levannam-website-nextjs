@@ -1,21 +1,15 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { postSchema, type PostInput } from '@/lib/validations'
+import { revalidatePost } from '@/lib/revalidate'
 
 type Result = { success: true } | { error: string }
 
 async function isAdmin(): Promise<boolean> {
   const session = await auth()
   return !!session?.user
-}
-
-function revalidatePosts() {
-  revalidatePath('/admin/posts')
-  revalidatePath('/tin-tuc')
-  revalidatePath('/')
 }
 
 export async function createPost(input: PostInput): Promise<Result> {
@@ -43,7 +37,7 @@ export async function createPost(input: PostInput): Promise<Result> {
   } catch {
     return { error: 'Không thể tạo bài viết.' }
   }
-  revalidatePosts()
+  revalidatePost()
   return { success: true }
 }
 
@@ -83,7 +77,7 @@ export async function updatePost(id: string, input: PostInput): Promise<Result> 
   } catch {
     return { error: 'Không thể cập nhật bài viết.' }
   }
-  revalidatePosts()
+  revalidatePost()
   return { success: true }
 }
 
@@ -94,6 +88,6 @@ export async function deletePost(id: string): Promise<Result> {
   } catch {
     return { error: 'Không thể xoá bài viết.' }
   }
-  revalidatePosts()
+  revalidatePost()
   return { success: true }
 }

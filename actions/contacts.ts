@@ -4,6 +4,7 @@ import { headers } from 'next/headers'
 import { prisma } from '@/lib/prisma'
 import { checkRateLimit } from '@/lib/rate-limit'
 import { contactSchema, type ContactInput } from '@/lib/validations'
+import { revalidateContact } from '@/lib/revalidate'
 
 type Result = { success: true } | { error: string }
 
@@ -26,5 +27,6 @@ export async function createContact(
   } catch {
     return { error: 'Không thể gửi liên hệ. Vui lòng thử lại.' }
   }
+  revalidateContact()
   return { success: true }
 }

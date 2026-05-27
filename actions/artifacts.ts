@@ -1,21 +1,15 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { artifactSchema, type ArtifactInput } from '@/lib/validations'
+import { revalidateArtifact } from '@/lib/revalidate'
 
 type Result = { success: true } | { error: string }
 
 async function isAdmin(): Promise<boolean> {
   const session = await auth()
   return !!session?.user
-}
-
-function revalidateArtifacts() {
-  revalidatePath('/admin/artifacts')
-  revalidatePath('/hien-vat')
-  revalidatePath('/')
 }
 
 export async function createArtifact(input: ArtifactInput): Promise<Result> {
@@ -37,7 +31,7 @@ export async function createArtifact(input: ArtifactInput): Promise<Result> {
   } catch {
     return { error: 'Không thể tạo hiện vật.' }
   }
-  revalidateArtifacts()
+  revalidateArtifact()
   return { success: true }
 }
 
@@ -64,7 +58,7 @@ export async function updateArtifact(
   } catch {
     return { error: 'Không thể cập nhật hiện vật.' }
   }
-  revalidateArtifacts()
+  revalidateArtifact()
   return { success: true }
 }
 
@@ -75,6 +69,6 @@ export async function deleteArtifact(id: string): Promise<Result> {
   } catch {
     return { error: 'Không thể xoá hiện vật.' }
   }
-  revalidateArtifacts()
+  revalidateArtifact()
   return { success: true }
 }

@@ -70,7 +70,7 @@ export const exhibitionSchema = z
     artifactIds: z.array(z.string()),
   })
   .refine((d) => new Date(d.endDate) >= new Date(d.startDate), {
-    message: 'Ngày kết thúc phải sau ngày bắt đầu',
+    message: 'Ngày kết thúc không được trước ngày bắt đầu',
     path: ['endDate'],
   })
 export type ExhibitionInput = z.infer<typeof exhibitionSchema>

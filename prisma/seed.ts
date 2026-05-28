@@ -30,6 +30,8 @@ async function seedAdmin() {
 
 async function seedFeatures() {
   // FK-safe wipe so re-running is idempotent (join → leaves → roots).
+  await prisma.tourGroup.deleteMany()
+  await prisma.contact.deleteMany()
   await prisma.artifactOnExhibition.deleteMany()
   await prisma.artifact.deleteMany()
   await prisma.post.deleteMany()
@@ -109,7 +111,28 @@ async function seedFeatures() {
     ],
   })
 
-  console.log('Seeded 3 rooms, 10 artifacts (4 featured), 5 posts, 2 exhibitions')
+  await prisma.tourGroup.createMany({
+    data: [
+      { groupName: 'Trường THPT Nguyễn Huệ', contactName: 'Cô Lan', phone: '0901234567', date: daysFromNow(7), size: 40, status: 'PENDING' },
+      { groupName: 'Đoàn cựu chiến binh Quận 1', contactName: 'Ông Minh', phone: '0912345678', date: daysFromNow(14), size: 25, status: 'APPROVED' },
+      { groupName: 'Công ty Du lịch Sài Gòn', contactName: 'Anh Tuấn', phone: '0987654321', date: daysFromNow(3), size: 60, note: 'Cần hướng dẫn viên tiếng Anh', status: 'PENDING' },
+      { groupName: 'Đại học KHXH&NV', contactName: 'Thầy Hùng', phone: '0934567890', date: daysFromNow(21), size: 35, status: 'REJECTED' },
+      { groupName: 'Hội phụ nữ phường 5', contactName: 'Chị Hoa', phone: '0945678901', date: daysFromNow(10), size: 20, status: 'PENDING' },
+    ],
+  })
+
+  await prisma.contact.createMany({
+    data: [
+      { name: 'Nguyễn Văn A', email: 'vana@example.com', message: 'Cho tôi hỏi giờ mở cửa của di tích vào cuối tuần?' },
+      { name: 'Trần Thị B', email: 'thib@example.com', message: 'Di tích có hỗ trợ thuyết minh cho đoàn học sinh không ạ?' },
+      { name: 'Lê Văn C', email: 'vanc@example.com', message: 'Tôi muốn góp một số tư liệu, hiện vật. Xin liên hệ lại giúp tôi.' },
+      { name: 'Phạm Thị D', email: 'thid@example.com', message: 'Bãi đỗ xe ô tô có gần cổng vào không?' },
+    ],
+  })
+
+  console.log(
+    'Seeded 3 rooms, 10 artifacts (4 featured), 5 posts, 2 exhibitions, 5 tour groups, 4 contacts',
+  )
 }
 
 async function main() {

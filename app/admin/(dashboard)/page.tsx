@@ -32,7 +32,7 @@ export default async function AdminDashboard() {
       icon: ClipboardList,
       href: '/admin/tours',
     },
-    { label: 'Liên hệ', value: contacts, icon: Mail, href: null },
+    { label: 'Liên hệ', value: contacts, icon: Mail, href: '/admin/contacts' },
   ]
 
   return (

@@ -39,6 +39,9 @@ export function revalidateRoom() {
   revalidatePath('/admin/artifacts')
   revalidatePath('/admin/artifacts/new')
   revalidatePath('/admin/artifacts/[id]/edit', 'page')
+  // exhibition detail renders artifact room names
+  revalidatePath('/trien-lam')
+  revalidatePath('/trien-lam/[id]', 'page')
   revalidatePath('/admin')
 }
 

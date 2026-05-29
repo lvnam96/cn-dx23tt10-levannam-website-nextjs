@@ -56,6 +56,10 @@
   --color-gold-500: var(--gold-500);
   --color-gold-400: var(--gold-400);
   --color-gold-300: var(--gold-300);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-card: var(--paper-card);
+  --color-red: var(--red);
   --color-header-bg: var(--header-bg);
   --color-footer-bg: var(--footer-bg);
 }
@@ -72,6 +76,11 @@
   --gold-500: oklch(0.7 0.14 72);
   --gold-400: oklch(0.78 0.12 72);
   --gold-300: oklch(0.85 0.1 72);
+  /* Public "paper" surfaces + lacquer-red accent (redesign) */
+  --paper: oklch(0.95 0.018 83);
+  --paper-2: oklch(0.91 0.025 84);
+  --paper-card: oklch(0.97 0.012 84);
+  --red: oklch(0.43 0.13 33);
   --header-bg: var(--navy-900);
   --footer-bg: var(--navy-950);
   --foreground: var(--navy-950);

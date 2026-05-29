@@ -4,8 +4,8 @@ import { cn } from '@/lib/utils'
 type Variant = 'default' | 'muted' | 'navy'
 
 const variantClasses: Record<Variant, string> = {
-  default: 'bg-background text-foreground',
-  muted: 'bg-muted text-foreground',
+  default: 'bg-paper text-foreground',
+  muted: 'bg-paper-2 text-foreground',
   navy: 'bg-navy-950 text-navy-50',
 }
 

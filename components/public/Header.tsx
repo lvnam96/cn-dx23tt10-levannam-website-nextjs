@@ -51,8 +51,8 @@ export function Header() {
                 href={link.href}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'text-sm font-medium underline-offset-8 transition-colors hover:text-gold-400',
-                  active && 'text-gold-400 underline',
+                  'border-b-2 border-transparent pb-1 text-sm font-medium transition-colors hover:text-gold-400',
+                  active && 'border-gold-400 text-gold-400',
                 )}
               >
                 {link.label}

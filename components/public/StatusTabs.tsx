@@ -21,6 +21,7 @@ export function StatusTabs({
           <Link
             key={t.value || 'all'}
             href={href}
+            aria-current={active ? 'page' : undefined}
             className={cn(
               'shrink-0 -mb-px border-b-2 px-4 py-2 text-sm font-medium transition-colors',
               active

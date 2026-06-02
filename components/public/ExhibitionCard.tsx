@@ -14,10 +14,13 @@ function CardInner({
   startDate: Date
   endDate: Date
 }) {
-  const upcoming = startDate.getTime() > Date.now()
-  const status = upcoming
-    ? { label: 'Sắp diễn ra', className: 'bg-gold-400 text-navy-950' }
-    : { label: 'Đang diễn ra', className: 'bg-navy-900 text-navy-50' }
+  const now = Date.now()
+  const status =
+    startDate.getTime() > now
+      ? { label: 'Sắp diễn ra', className: 'bg-gold-400 text-navy-950' }
+      : endDate.getTime() < now
+        ? { label: 'Đã kết thúc', className: 'bg-navy-100 text-navy-700' }
+        : { label: 'Đang diễn ra', className: 'bg-navy-900 text-navy-50' }
 
   return (
     <>

@@ -29,7 +29,7 @@ export function PageHero({
     <section className={cn('relative w-full', sizeClasses[size])}>
       <Image src={image} alt={alt ?? title} fill priority sizes="100vw" className="object-cover" />
       {/* Light building reads at top; navy gradient only at the base for legibility */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-navy-950/20 to-navy-950/85" />
+      <div className="absolute inset-0 bg-linear-to-b from-transparent via-navy-950/20 to-navy-950/85" />
       <div className="absolute inset-x-0 bottom-0">
         <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 md:pb-16">
           {eyebrow && (

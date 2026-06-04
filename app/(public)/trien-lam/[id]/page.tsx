@@ -66,7 +66,7 @@ export default async function ExhibitionDetailPage({
     <>
       <div className="relative h-[36vh] min-h-[260px] w-full md:h-[44vh] md:min-h-[340px]">
         <Image src={exhibition.coverImage ?? 'https://placehold.co/1920x600.png'} alt={exhibition.title} fill priority sizes="100vw" className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-navy-950/85" />
+        <div className="absolute inset-0 bg-linear-to-b from-transparent to-navy-950/85" />
         <div className="absolute inset-x-0 bottom-0">
           <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6">
             <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${status.className}`}>{status.label}</span>

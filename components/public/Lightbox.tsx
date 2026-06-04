@@ -46,6 +46,7 @@ export function Lightbox({
         <Dialog.Content aria-describedby={undefined} className="fixed inset-0 z-50 flex items-center justify-center p-4 focus:outline-none">
           <Dialog.Title className="sr-only">{alt}</Dialog.Title>
           <button
+            type="button"
             onClick={() => onOpenChange(false)}
             aria-label="Đóng"
             className="absolute right-4 top-4 rounded-full bg-navy-50/10 p-2 text-navy-50 hover:bg-navy-50/20"
@@ -54,6 +55,7 @@ export function Lightbox({
           </button>
           {images.length > 1 && (
             <button
+              type="button"
               onClick={prev}
               aria-label="Ảnh trước"
               className="absolute left-4 rounded-full bg-navy-50/10 p-2 text-navy-50 hover:bg-navy-50/20"
@@ -66,6 +68,7 @@ export function Lightbox({
           </div>
           {images.length > 1 && (
             <button
+              type="button"
               onClick={next}
               aria-label="Ảnh sau"
               className="absolute right-4 rounded-full bg-navy-50/10 p-2 text-navy-50 hover:bg-navy-50/20"

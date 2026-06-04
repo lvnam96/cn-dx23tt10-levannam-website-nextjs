@@ -10,6 +10,7 @@ import { InfoCard, type InfoRow } from '@/components/public/InfoCard'
 import { ExhibitionCard } from '@/components/public/ExhibitionCard'
 import { VisitCTA } from '@/components/public/VisitCTA'
 import { formatDateVi } from '@/lib/format'
+import { getExhibitionStatus } from '@/lib/exhibition-status'
 
 const getExhibition = cache((id: string) =>
   prisma.exhibition.findUnique({
@@ -32,13 +33,6 @@ export async function generateMetadata({
   }
 }
 
-function getStatus(startDate: Date, endDate: Date) {
-  const now = Date.now()
-  if (startDate.getTime() > now) return { label: 'Sắp diễn ra', className: 'bg-gold-400 text-navy-950' }
-  if (endDate.getTime() < now) return { label: 'Đã kết thúc', className: 'bg-navy-100 text-navy-700' }
-  return { label: 'Đang diễn ra', className: 'bg-navy-900 text-navy-50' }
-}
-
 export default async function ExhibitionDetailPage({
   params,
 }: {
@@ -48,7 +42,7 @@ export default async function ExhibitionDetailPage({
   const exhibition = await getExhibition(id)
   if (!exhibition) notFound()
 
-  const status = getStatus(exhibition.startDate, exhibition.endDate)
+  const status = getExhibitionStatus(exhibition.startDate, exhibition.endDate)
   const artifacts = exhibition.artifacts.map((a) => a.artifact)
   const others = await prisma.exhibition.findMany({
     where: { id: { not: exhibition.id } },

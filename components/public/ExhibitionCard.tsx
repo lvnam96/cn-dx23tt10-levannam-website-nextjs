@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { formatDateVi } from '@/lib/format'
+import { getExhibitionStatus } from '@/lib/exhibition-status'
 
 function CardInner({
   title,
@@ -14,13 +15,7 @@ function CardInner({
   startDate: Date
   endDate: Date
 }) {
-  const now = Date.now()
-  const status =
-    startDate.getTime() > now
-      ? { label: 'Sắp diễn ra', className: 'bg-gold-400 text-navy-950' }
-      : endDate.getTime() < now
-        ? { label: 'Đã kết thúc', className: 'bg-navy-100 text-navy-700' }
-        : { label: 'Đang diễn ra', className: 'bg-navy-900 text-navy-50' }
+  const status = getExhibitionStatus(startDate, endDate)
 
   return (
     <>
@@ -65,7 +60,7 @@ export function ExhibitionCard({
   // `group-hover:scale-105` (in CardInner) animates only for clickable cards —
   // matching ArtifactCard. The non-link <article> (homepage) stays static.
   const base =
-    'flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card'
+    'flex h-full flex-col overflow-hidden rounded-lg border border-border bg-paper-card'
   const inner = (
     <CardInner title={title} image={image} startDate={startDate} endDate={endDate} />
   )

@@ -48,7 +48,7 @@ export function ArtifactCard({
   roomName?: string
   href?: string
 }) {
-  const base = 'group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card'
+  const base = 'group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-paper-card'
   const inner = <CardInner name={name} image={image} category={category} roomName={roomName} />
   if (href) {
     return (

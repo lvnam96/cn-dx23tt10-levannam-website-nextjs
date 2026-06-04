@@ -18,7 +18,7 @@ export function PostCard({
   return (
     <Link
       href={href}
-      className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card transition-shadow hover:shadow-lg"
+      className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-paper-card transition-shadow hover:shadow-lg"
     >
       <div className="relative aspect-video w-full overflow-hidden bg-muted">
         <Image

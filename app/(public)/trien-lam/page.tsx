@@ -8,6 +8,7 @@ import { FeaturedItem } from '@/components/public/FeaturedItem'
 import { ExhibitionCard } from '@/components/public/ExhibitionCard'
 import { CrossLinkCards } from '@/components/public/CrossLinkCards'
 import { formatDateVi } from '@/lib/format'
+import { getExhibitionState } from '@/lib/exhibition-status'
 
 export const metadata: Metadata = {
   title: 'Triển lãm',
@@ -27,7 +28,7 @@ export default async function ExhibitionListPage({
   const all = await prisma.exhibition.findMany({ orderBy: { startDate: 'desc' } })
   const withStatus = all.map((e) => ({
     ...e,
-    state: e.startDate > now ? 'upcoming' : e.endDate < now ? 'past' : 'current',
+    state: getExhibitionState(e.startDate, e.endDate, now.getTime()),
   }))
 
   const filtered = status ? withStatus.filter((e) => e.state === status) : withStatus

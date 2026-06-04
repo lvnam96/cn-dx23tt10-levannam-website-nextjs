@@ -1,11 +1,12 @@
-import Link from 'next/link'
+import Link from 'next/link';
 
 export type CrossLink = {
-  href: string
-  title: string
-  description: string
-  icon?: string // emoji or short glyph
-}
+  href: string;
+  title: string;
+  description: string;
+  icon?: string; // emoji or short glyph
+  linkText?: string;
+};
 
 export function CrossLinkCards({ links }: { links: CrossLink[] }) {
   return (
@@ -20,10 +21,10 @@ export function CrossLinkCards({ links }: { links: CrossLink[] }) {
           <h3 className="mt-3 font-heading text-lg font-semibold text-foreground">{l.title}</h3>
           <p className="mt-1 text-sm text-muted-foreground">{l.description}</p>
           <span className="mt-auto pt-3 text-sm font-medium text-red group-hover:underline">
-            Khám phá →
+            {l.linkText || 'Khám phá'} →
           </span>
         </Link>
       ))}
     </div>
-  )
+  );
 }

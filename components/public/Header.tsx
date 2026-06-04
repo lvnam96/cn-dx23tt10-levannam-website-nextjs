@@ -1,18 +1,12 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Menu } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet'
+import { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Menu } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 const NAV_LINKS = [
   { href: '/', label: 'Trang chủ' },
@@ -22,29 +16,29 @@ const NAV_LINKS = [
   { href: '/trien-lam', label: 'Triển lãm' },
   { href: '/dang-ky-tham-quan', label: 'Đăng ký tham quan' },
   { href: '/lien-he', label: 'Liên hệ' },
-]
+];
 
 function isActive(pathname: string, href: string) {
-  if (href === '/') return pathname === '/'
+  if (href === '/') return pathname === '/';
   // Exact match or a true sub-path — avoids a sibling like /hien-vat-abc
   // wrongly activating /hien-vat.
-  return pathname === href || pathname.startsWith(`${href}/`)
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 export function Header() {
-  const pathname = usePathname()
-  const [open, setOpen] = useState(false)
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-header-bg text-navy-50">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="font-heading text-xl font-bold text-gold-400">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-end-safe md:justify-center px-4 sm:px-6">
+        {/* <Link href="/" className="font-heading text-xl font-bold text-gold-400">
           Đền thờ Bác
-        </Link>
+        </Link> */}
 
         <nav aria-label="Điều hướng chính" className="hidden gap-6 md:flex">
           {NAV_LINKS.map((link) => {
-            const active = isActive(pathname, link.href)
+            const active = isActive(pathname, link.href);
             return (
               <Link
                 key={link.href}
@@ -52,12 +46,12 @@ export function Header() {
                 aria-current={active ? 'page' : undefined}
                 className={cn(
                   'border-b-2 border-transparent pb-1 text-sm font-medium transition-colors hover:text-gold-400',
-                  active && 'border-gold-400 text-gold-400',
+                  active && 'border-gold-400 text-gold-400'
                 )}
               >
                 {link.label}
               </Link>
-            )
+            );
           })}
         </nav>
 
@@ -72,7 +66,7 @@ export function Header() {
             <SheetDescription className="sr-only">Liên kết điều hướng trang</SheetDescription>
             <nav aria-label="Điều hướng chính" className="mt-4 flex flex-col">
               {NAV_LINKS.map((link) => {
-                const active = isActive(pathname, link.href)
+                const active = isActive(pathname, link.href);
                 return (
                   <Link
                     key={link.href}
@@ -81,17 +75,17 @@ export function Header() {
                     aria-current={active ? 'page' : undefined}
                     className={cn(
                       'px-6 py-3 text-base font-medium hover:bg-navy-900 hover:text-gold-400',
-                      active && 'text-gold-400',
+                      active && 'text-gold-400'
                     )}
                   >
                     {link.label}
                   </Link>
-                )
+                );
               })}
             </nav>
           </SheetContent>
         </Sheet>
       </div>
     </header>
-  )
+  );
 }

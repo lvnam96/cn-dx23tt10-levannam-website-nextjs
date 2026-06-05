@@ -1,10 +1,11 @@
 import type { Metadata } from 'next'
+import heroImg from '@/assets/images/den_tho_bac_003.jpg'
 import { prisma } from '@/lib/prisma'
 import { PageHero } from '@/components/public/PageHero'
 import { SectionWrapper } from '@/components/public/SectionWrapper'
 import { SectionHeader } from '@/components/public/SectionHeader'
 import { ArtifactCard } from '@/components/public/ArtifactCard'
-import { FilterPills } from '@/components/public/FilterPills'
+import { FilterBar } from '@/components/public/FilterBar'
 import { RoomEntryCards } from '@/components/public/RoomEntryCards'
 import { FeaturedItem } from '@/components/public/FeaturedItem'
 import { QuoteBand } from '@/components/public/QuoteBand'
@@ -61,7 +62,7 @@ export default async function ArtifactListPage({
         eyebrow="Bộ sưu tập"
         title="Hiện vật"
         subtitle="Bộ sưu tập hiện vật, tư liệu và hình ảnh của khu di tích."
-        image="https://placehold.co/1920x800.png?text=Hien+vat"
+        image={heroImg}
         size="sm"
       />
 
@@ -74,23 +75,24 @@ export default async function ArtifactListPage({
 
       <SectionWrapper variant="muted">
         <SectionHeader title="Tất cả hiện vật" />
-        <div className="mb-6 space-y-3">
-          <FilterPills
-            basePath="/hien-vat"
-            param="category"
-            current={category}
-            otherParams={{ room }}
-            pills={ARTIFACT_CATEGORIES.map((c) => ({ value: c, label: c }))}
-          />
-          <FilterPills
-            basePath="/hien-vat"
-            param="room"
-            current={room}
-            otherParams={{ category }}
-            allLabel="Mọi phòng"
-            pills={rooms.map((r) => ({ value: r.id, label: r.name }))}
-          />
-        </div>
+        <FilterBar
+          action="/hien-vat"
+          className="mb-6"
+          fields={[
+            {
+              name: 'room',
+              label: 'Phòng',
+              current: room,
+              options: rooms.map((r) => ({ value: r.id, label: r.name })),
+            },
+            {
+              name: 'category',
+              label: 'Loại',
+              current: category,
+              options: ARTIFACT_CATEGORIES.map((c) => ({ value: c, label: c })),
+            },
+          ]}
+        />
 
         {artifacts.length === 0 ? (
           <p className="py-12 text-center text-muted-foreground">Không tìm thấy hiện vật nào.</p>

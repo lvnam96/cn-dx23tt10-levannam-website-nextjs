@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
+import heroImg from '@/assets/images/den_tho_bac_005.jpg'
 import { prisma } from '@/lib/prisma'
 import { PageHero } from '@/components/public/PageHero'
 import { SectionWrapper } from '@/components/public/SectionWrapper'
 import { SectionHeader } from '@/components/public/SectionHeader'
-import { FilterPills } from '@/components/public/FilterPills'
+import { FilterBar } from '@/components/public/FilterBar'
 import { FeaturedItem } from '@/components/public/FeaturedItem'
 import { PostCard } from '@/components/public/PostCard'
 import { CrossLinkCards } from '@/components/public/CrossLinkCards'
@@ -43,7 +44,7 @@ export default async function NewsListPage({
 
   return (
     <>
-      <PageHero eyebrow="Tin tức · Sự kiện" title="Tin tức & Bài viết" subtitle="Sự kiện, thông báo và câu chuyện về khu di tích." image="https://placehold.co/1920x800.png?text=Tin+tuc" size="sm" />
+      <PageHero eyebrow="Tin tức · Sự kiện" title="Tin tức & Bài viết" subtitle="Sự kiện, thông báo và câu chuyện về khu di tích." image={heroImg} size="sm" />
 
       {featured && !category && page === 1 && (
         <SectionWrapper>
@@ -62,9 +63,18 @@ export default async function NewsListPage({
 
       <SectionWrapper variant="muted">
         <SectionHeader title="Tất cả bài viết" />
-        <div className="mb-6">
-          <FilterPills basePath="/tin-tuc" param="category" current={category} pills={POST_CATEGORIES.map((c) => ({ value: c, label: c }))} />
-        </div>
+        <FilterBar
+          action="/tin-tuc"
+          className="mb-6"
+          fields={[
+            {
+              name: 'category',
+              label: 'Chuyên mục',
+              current: category,
+              options: POST_CATEGORIES.map((c) => ({ value: c, label: c })),
+            },
+          ]}
+        />
         {posts.length === 0 ? (
           <p className="py-12 text-center text-muted-foreground">Chưa có bài viết nào.</p>
         ) : (

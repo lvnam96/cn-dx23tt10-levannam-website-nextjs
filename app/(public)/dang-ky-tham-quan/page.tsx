@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import heroImg from '@/assets/images/den_tho_bac_003.jpg'
 import { PageHero } from '@/components/public/PageHero';
 import { SectionWrapper } from '@/components/public/SectionWrapper';
 import { SectionHeader } from '@/components/public/SectionHeader';
@@ -20,7 +21,7 @@ export default function TourPage() {
         eyebrow="Kế hoạch chuyến thăm"
         title="Đăng ký tham quan"
         subtitle="Thông tin chuẩn bị và đăng ký cho đoàn."
-        image="https://placehold.co/1920x800.png?text=Tham+quan"
+        image={heroImg}
         size="sm"
       />
 

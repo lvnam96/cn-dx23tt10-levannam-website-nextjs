@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import heroImg from '@/assets/images/den_tho_bac_006.jpg'
 import { PageHero } from '@/components/public/PageHero'
 import { SectionWrapper } from '@/components/public/SectionWrapper'
 import { SectionHeader } from '@/components/public/SectionHeader'
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <PageHero eyebrow="Kết nối" title="Liên hệ" subtitle="Thông tin liên hệ và vị trí khu di tích." image="https://placehold.co/1920x800.png?text=Lien+he" size="sm" />
+      <PageHero eyebrow="Kết nối" title="Liên hệ" subtitle="Thông tin liên hệ và vị trí khu di tích." image={heroImg} size="sm" />
 
       <SectionWrapper>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">

@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
+import heroImg from '@/assets/images/den_tho_bac_002.jpg'
+import architectureImg from '@/assets/images/den_tho_bac_003.jpg'
 import Link from 'next/link'
+import Image from 'next/image'
 import { PageHero } from '@/components/public/PageHero'
 import { SectionWrapper } from '@/components/public/SectionWrapper'
 import { SectionHeader } from '@/components/public/SectionHeader'
@@ -27,7 +30,7 @@ export default function AboutPage() {
         eyebrow="Di tích quốc gia"
         title="Giới thiệu"
         subtitle="Lịch sử, kiến trúc và ý nghĩa của khu di tích."
-        image="https://placehold.co/1920x800.png?text=Gioi+thieu"
+        image={heroImg}
         size="sm"
       />
 
@@ -55,8 +58,7 @@ export default function AboutPage() {
         <SectionHeader index="03" eyebrow="Kiến trúc & khuôn viên" title="Khu di tích 5,4 ha" />
         <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2">
           <div className="relative aspect-4/3 overflow-hidden rounded-lg bg-muted">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="https://placehold.co/800x600.png?text=Khuon+vien" alt="Khuôn viên khu di tích" className="h-full w-full object-cover" />
+            <Image src={architectureImg} alt="Khuôn viên khu di tích" fill className="object-cover" />
           </div>
           <ul className="space-y-3 text-muted-foreground">
             <li>◆ Điện thờ mái hình hoa sen</li>

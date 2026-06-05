@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -20,7 +20,7 @@ export function PageHero({
   title: string
   subtitle?: string
   eyebrow?: string
-  image: string
+  image: string | StaticImageData
   alt?: string
   cta?: { label: string; href: string }
   size?: 'lg' | 'sm'

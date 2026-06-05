@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import heroImg from '@/assets/images/den_tho_bac_004.jpg'
 import { prisma } from '@/lib/prisma'
 import { PageHero } from '@/components/public/PageHero'
 import { SectionWrapper } from '@/components/public/SectionWrapper'
@@ -40,7 +41,7 @@ export default async function ExhibitionListPage({
         eyebrow="Sự kiện · Chuyên đề"
         title="Triển lãm"
         subtitle="Các chuyên đề trưng bày tại khu di tích."
-        image="https://placehold.co/1920x800.png?text=Trien+lam"
+        image={heroImg}
         size="sm"
       />
 

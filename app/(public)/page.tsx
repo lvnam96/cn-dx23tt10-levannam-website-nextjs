@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import heroImg from '@/assets/images/den_tho_bac_001.jpg'
 import { prisma } from '@/lib/prisma'
 import { PageHero } from '@/components/public/PageHero'
 import { SectionWrapper } from '@/components/public/SectionWrapper'
@@ -41,7 +42,7 @@ export default async function HomePage() {
         eyebrow="Di tích quốc gia · Trà Vinh"
         title="Đền thờ Chủ tịch Hồ Chí Minh"
         subtitle="Tấm lòng son sắt của nhân dân Nam Bộ — công trình dựng giữa lòng địch, ba lần xây lại trong bom đạn."
-        image="https://placehold.co/1920x1000.png?text=Den+tho+Bac"
+        image={heroImg}
         cta={{ label: 'Tìm hiểu thêm', href: '/gioi-thieu' }}
       />
 

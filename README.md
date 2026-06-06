@@ -1,36 +1,188 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Đền thờ Chủ tịch Hồ Chí Minh — Website quản lý di tích
 
-## Getting Started
+Website quản lý di tích **Đền thờ Chủ tịch Hồ Chí Minh** (Long Đức, Trà Vinh).
 
-First, run the development server:
+**Stack:** Next.js 15 (App Router) · React 19 · Tailwind CSS v4 · Prisma 6 · PostgreSQL · NextAuth.js v5 · Cloudinary
+
+---
+
+## Yêu cầu
+
+- Node.js 24 (dùng `nvm use` để tự động chuyển phiên bản theo `.nvmrc`)
+- npm
+- Docker & Docker Compose (dùng cho cơ sở dữ liệu local)
+
+---
+
+## Biến môi trường
+
+Sao chép file mẫu và điền đầy đủ các giá trị:
+
+```bash
+cp .env.example .env
+```
+
+| Biến | Mô tả |
+|---|---|
+| `DATABASE_URL` | Chuỗi kết nối Postgres có pooling (dùng cho truy vấn ứng dụng) |
+| `DATABASE_URL_UNPOOLED` | Chuỗi kết nối Postgres trực tiếp (dùng cho migration) |
+| `AUTH_SECRET` | Chuỗi bí mật ngẫu nhiên cho NextAuth — tạo bằng `npx auth secret` |
+| `AUTH_URL` | URL đầy đủ của ứng dụng, ví dụ `http://localhost:3000` |
+| `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` | Tên cloud trên Cloudinary |
+| `NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET` | Tên upload preset (unsigned) |
+| `CLOUDINARY_API_KEY` | API key của Cloudinary |
+| `CLOUDINARY_API_SECRET` | API secret của Cloudinary |
+
+> **Lưu ý:** Prisma CLI (`prisma migrate`, `prisma db seed`) chỉ đọc file `.env` — không đọc `.env.local`. Luôn giữ URL cơ sở dữ liệu trong `.env`.
+
+---
+
+## Lựa chọn A — Phát triển local (Docker Postgres)
+
+### 1. Khởi động cơ sở dữ liệu
+
+```bash
+docker compose up -d
+```
+
+Lệnh này khởi động PostgreSQL 16 trên `localhost:5432` với:
+- User: `postgres` · Mật khẩu: `password` · Database: `den_tho_bac_dev`
+
+### 2. Cấu hình URL cơ sở dữ liệu trong `.env`
+
+```env
+DATABASE_URL=postgresql://postgres:password@localhost:5432/den_tho_bac_dev
+DATABASE_URL_UNPOOLED=postgresql://postgres:password@localhost:5432/den_tho_bac_dev
+```
+
+Với Postgres local không có connection pooler nên hai biến này trỏ đến cùng một URL.
+
+### 3. Chạy migration và seed dữ liệu
+
+```bash
+npm run db:migrate
+npm run db:seed
+```
+
+### 4. Khởi động máy chủ phát triển
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Mở [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Lựa chọn B — Neon Serverless Postgres (triển khai / cloud)
 
-## Learn More
+### 1. Cài đặt Neon CLI
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm i -g neonctl
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Đăng nhập
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+neonctl auth
+```
 
-## Deploy on Vercel
+Trình duyệt sẽ mở để xác thực qua OAuth. Chỉ cần thực hiện một lần — thông tin đăng nhập được lưu lại.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 3. Tạo project
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+neonctl projects create --name den-tho-bac --region-id aws-ap-southeast-1 --set-context
+```
+
+`--set-context` đặt project này làm mặc định, giúp bỏ qua `--project-id` ở các lệnh tiếp theo.
+
+### 4. Lấy chuỗi kết nối
+
+```bash
+# URL có pooling — dùng cho DATABASE_URL (truy vấn ứng dụng)
+neonctl connection-string --pooled --prisma --output raw
+
+# URL trực tiếp — dùng cho DATABASE_URL_UNPOOLED (migration)
+neonctl connection-string --output raw
+```
+
+Điền vào `.env`:
+
+```env
+DATABASE_URL=<chuỗi có pooling>
+DATABASE_URL_UNPOOLED=<chuỗi trực tiếp>
+```
+
+### 5. Chạy migration và seed dữ liệu
+
+```bash
+npm run db:migrate
+npm run db:seed
+```
+
+### 6. Khởi động máy chủ phát triển
+
+```bash
+npm run dev
+```
+
+---
+
+## Chuyển đổi giữa local và Neon
+
+Next.js ưu tiên `.env.local` hơn `.env` khi chạy ứng dụng. Dùng điều này để trỏ ứng dụng sang database khác mà không cần sửa `.env` (vốn luôn được Prisma CLI đọc):
+
+```bash
+# .env.local — ghi đè DATABASE_URL chỉ cho ứng dụng đang chạy
+DATABASE_URL=postgresql://postgres:password@localhost:5432/den_tho_bac_dev
+DATABASE_URL_UNPOOLED=postgresql://postgres:password@localhost:5432/den_tho_bac_dev
+```
+
+| File | Được đọc bởi | Nội dung thường dùng |
+|---|---|---|
+| `.env` | Prisma CLI + Next.js (dự phòng) | URL Neon |
+| `.env.local` | Chỉ ứng dụng Next.js (ghi đè `.env`) | URL Docker local |
+
+Xóa hoặc để trống `.env.local` để ứng dụng dùng URL trong `.env` (Neon).
+
+---
+
+## Các lệnh thường dùng
+
+```bash
+npm run dev          # máy chủ dev trên :3000 (Turbopack)
+npm run build        # build production
+npm run lint         # ESLint
+
+npm run db:migrate   # tạo và áp dụng Prisma migration
+npm run db:seed      # seed dữ liệu mẫu
+npm run db:studio    # mở Prisma Studio
+
+docker compose up -d      # khởi động Postgres local
+docker compose down -v    # dừng và xóa toàn bộ dữ liệu Postgres local
+```
+
+---
+
+## Thông tin đăng nhập mặc định (sau khi seed)
+
+| Trường | Giá trị |
+|---|---|
+| Email | `admin@den-tho-bac.local` |
+| Mật khẩu | `admin123` |
+| Trang quản trị | [http://localhost:3000/admin](http://localhost:3000/admin) |
+
+---
+
+## Dữ liệu seed
+
+| Đối tượng | Số lượng |
+|---|---|
+| Phòng | 5 |
+| Hiện vật | 12 (4 nổi bật) |
+| Bài viết | 8 (tất cả đã xuất bản) |
+| Triển lãm | 4 |
+| Đoàn tham quan | 6 |
+| Liên hệ | 5 |

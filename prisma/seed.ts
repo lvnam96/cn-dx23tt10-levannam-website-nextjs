@@ -343,7 +343,7 @@ async function seedFeatures() {
       title: 'Khai mạc trưng bày "Đảng Cộng sản Việt Nam — Một chặng đường vẻ vang"',
       category: 'Triển lãm',
       coverImage: CLD.nhaTrungBay,
-      publishedAt: new Date('2025-01-24'),
+      publishedAt: null,
       excerpt:
         'Nhân kỷ niệm 95 năm thành lập Đảng, khu di tích tổ chức triển lãm chuyên đề kết hợp với lễ ra mắt Phòng đọc sách Bác Hồ.',
       content: `<p>Nhân dịp kỷ niệm 95 năm thành lập Đảng Cộng sản Việt Nam (3/2/1930 – 3/2/2025), ngày 24/1/2025, Khu di tích lịch sử Đền thờ Chủ tịch Hồ Chí Minh tại Long Đức đã tổ chức khai mạc triển lãm chuyên đề <em>"Đảng Cộng sản Việt Nam — Một chặng đường vẻ vang"</em>.</p><p>Triển lãm trưng bày hơn 150 tài liệu, hình ảnh, hiện vật phản ánh lịch sử hình thành và những dấu mốc quan trọng trên chặng đường 95 năm của Đảng Cộng sản Việt Nam từ khi thành lập đến nay.</p><p>Đặc biệt, cùng dịp này, khu di tích chính thức ra mắt <strong>Phòng đọc sách Bác Hồ</strong> — không gian phục vụ nhu cầu đọc sách, tìm hiểu tư liệu lịch sử của nhân dân và du khách.</p>`,
@@ -361,7 +361,7 @@ async function seedFeatures() {
       title: 'Hơn 100.000 lượt khách về thăm đền thờ Bác mỗi năm',
       category: 'Di tích',
       coverImage: CLD.dangHuong,
-      publishedAt: new Date('2024-05-01'),
+      publishedAt: null,
       excerpt:
         'Khu di tích Đền thờ Chủ tịch Hồ Chí Minh tại Long Đức tiếp tục đón hơn 100.000 lượt khách thăm viếng mỗi năm, khẳng định sức hút của "địa chỉ đỏ" giáo dục truyền thống.',
       content: `<p>Những năm gần đây, Khu di tích lịch sử, văn hóa cấp quốc gia Đền thờ Chủ tịch Hồ Chí Minh tại phường Long Đức, TP Trà Vinh liên tục đón hơn <strong>100.000 lượt khách</strong> thăm viếng mỗi năm — con số ấn tượng khẳng định sức hút và ý nghĩa quan trọng của "địa chỉ đỏ" này.</p><p>Du khách đến từ khắp các tỉnh thành trong cả nước, bao gồm các đoàn học sinh, sinh viên, cựu chiến binh, cán bộ đảng viên và du khách quốc tế. Khu di tích rộng 5,4 ha với nhiều hạng mục trưng bày phong phú, hàng năm đều tổ chức nhiều hoạt động văn hóa, giáo dục truyền thống.</p><p>Ban Quản lý khu di tích đã không ngừng nâng cao chất lượng phục vụ, bổ sung tài liệu trưng bày và tổ chức các triển lãm chuyên đề nhằm phục vụ ngày càng tốt hơn nhu cầu tham quan, nghiên cứu của nhân dân.</p>`,
@@ -396,9 +396,9 @@ async function seedFeatures() {
   ];
 
   await Promise.all(
-    posts.map(({ title, ...rest }) =>
+    posts.map(({ title, publishedAt, ...rest }) =>
       prisma.post.create({
-        data: { title, slug: slugify(title), published: true, ...rest },
+        data: { title, slug: slugify(title), published: publishedAt ? true : false, publishedAt, ...rest },
       })
     )
   );

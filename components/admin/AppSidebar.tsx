@@ -1,17 +1,8 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import {
-  LayoutDashboard,
-  FileText,
-  Landmark,
-  DoorOpen,
-  Images,
-  Users,
-  Mail,
-  ExternalLink,
-} from 'lucide-react'
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { LayoutDashboard, FileText, Landmark, DoorOpen, Images, Users, Mail, ExternalLink } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -23,7 +14,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
-} from '@/components/ui/sidebar'
+} from '@/components/ui/sidebar';
 
 const ITEMS = [
   { href: '/admin', label: 'Bảng điều khiển', icon: LayoutDashboard },
@@ -33,15 +24,15 @@ const ITEMS = [
   { href: '/admin/exhibitions', label: 'Triển lãm', icon: Images },
   { href: '/admin/tours', label: 'Đoàn tham quan', icon: Users },
   { href: '/admin/contacts', label: 'Liên hệ', icon: Mail },
-]
+];
 
 function isActive(pathname: string, href: string) {
-  if (href === '/admin') return pathname === '/admin'
-  return pathname === href || pathname.startsWith(`${href}/`)
+  if (href === '/admin') return pathname === '/admin';
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 export function AppSidebar() {
-  const pathname = usePathname()
+  const pathname = usePathname();
   return (
     <Sidebar>
       <SidebarHeader className="px-4 py-5">
@@ -81,5 +72,5 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

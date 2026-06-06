@@ -1,33 +1,29 @@
-import { redirect } from 'next/navigation'
-import { AuthError } from 'next-auth'
-import { signIn, auth } from '@/lib/auth'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { ShieldCheck } from 'lucide-react'
+import { redirect } from 'next/navigation';
+import { AuthError } from 'next-auth';
+import { signIn, auth } from '@/lib/auth';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { ShieldCheck } from 'lucide-react';
 
-export default async function LoginPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ error?: string }>
-}) {
-  const session = await auth()
-  if (session?.user) redirect('/admin')
-  const { error } = await searchParams
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+  const session = await auth();
+  if (session?.user) redirect('/admin');
+  const { error } = await searchParams;
 
   async function login(formData: FormData) {
-    'use server'
+    'use server';
     try {
       await signIn('credentials', {
         email: formData.get('email'),
         password: formData.get('password'),
         redirectTo: '/admin',
-      })
+      });
     } catch (err) {
-      if (err instanceof AuthError) redirect('/admin/login?error=CredentialsSignin')
-      throw err
+      if (err instanceof AuthError) redirect('/admin/login?error=CredentialsSignin');
+      throw err;
     }
   }
 
@@ -47,11 +43,6 @@ export default async function LoginPage({
           </CardHeader>
           <CardContent>
             <form action={login} className="flex flex-col gap-4">
-              {error && (
-                <Alert variant="destructive">
-                  <AlertDescription>Email hoặc mật khẩu không đúng.</AlertDescription>
-                </Alert>
-              )}
               <div className="flex flex-col gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input id="email" name="email" type="email" required autoComplete="email" />
@@ -60,6 +51,12 @@ export default async function LoginPage({
                 <Label htmlFor="password">Mật khẩu</Label>
                 <Input id="password" name="password" type="password" required autoComplete="current-password" />
               </div>
+
+              {error && (
+                <Alert variant="destructive">
+                  <AlertDescription>Email hoặc mật khẩu không đúng.</AlertDescription>
+                </Alert>
+              )}
               <Button type="submit" className="mt-1 w-full">
                 Đăng nhập
               </Button>
@@ -68,5 +65,5 @@ export default async function LoginPage({
         </Card>
       </div>
     </main>
-  )
+  );
 }

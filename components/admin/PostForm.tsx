@@ -178,7 +178,7 @@ export function PostForm({ initialData }: { initialData?: Post }) {
           control={form.control}
           name="published"
           render={({ field }) => (
-            <FormItem className="flex items-center gap-3">
+            <FormItem className="flex flex-row items-center justify-between gap-3">
               <FormLabel>Xuất bản</FormLabel>
               <FormControl>
                 <Switch checked={field.value} onCheckedChange={field.onChange} />

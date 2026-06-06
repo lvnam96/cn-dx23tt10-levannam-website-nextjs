@@ -9,16 +9,20 @@ import {
   DoorOpen,
   Images,
   Users,
+  Mail,
+  ExternalLink,
 } from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
 } from '@/components/ui/sidebar'
 
 const ITEMS = [
@@ -28,6 +32,7 @@ const ITEMS = [
   { href: '/admin/rooms', label: 'Phòng', icon: DoorOpen },
   { href: '/admin/exhibitions', label: 'Triển lãm', icon: Images },
   { href: '/admin/tours', label: 'Đoàn tham quan', icon: Users },
+  { href: '/admin/contacts', label: 'Liên hệ', icon: Mail },
 ]
 
 function isActive(pathname: string, href: string) {
@@ -39,9 +44,11 @@ export function AppSidebar() {
   const pathname = usePathname()
   return (
     <Sidebar>
-      <SidebarHeader className="p-4 font-heading text-lg font-bold">
-        Đền thờ Bác
+      <SidebarHeader className="px-4 py-5">
+        <p className="font-heading text-base font-bold leading-tight">Đền thờ Bác</p>
+        <p className="text-xs text-muted-foreground">Trang quản trị</p>
       </SidebarHeader>
+      <SidebarSeparator />
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
@@ -60,6 +67,19 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarSeparator />
+      <SidebarFooter className="p-3">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link href="/" target="_blank" rel="noopener noreferrer">
+                <ExternalLink />
+                <span>Xem trang web</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   )
 }

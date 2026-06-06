@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { ExhibitionForm } from '@/components/admin/ExhibitionForm'
+import { PageHeader } from '@/components/admin/PageHeader'
 
 export default async function EditExhibitionPage({
   params,
@@ -19,7 +20,7 @@ export default async function EditExhibitionPage({
   }
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-bold">Sửa triển lãm</h1>
+      <PageHeader title="Sửa triển lãm" backHref="/admin/exhibitions" backLabel="Triển lãm" />
       <ExhibitionForm artifacts={artifacts} initialData={initialData} />
     </div>
   )

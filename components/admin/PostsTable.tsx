@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { FileText } from 'lucide-react'
 import type { Post } from '@prisma/client'
 import {
   Table,
@@ -17,44 +18,47 @@ import { DeleteButton } from '@/components/admin/DeleteButton'
 export function PostsTable({ posts }: { posts: Post[] }) {
   if (posts.length === 0) {
     return (
-      <p className="py-12 text-center text-muted-foreground">
-        Chưa có bài viết nào.
-      </p>
+      <div className="flex flex-col items-center gap-3 py-16 text-muted-foreground">
+        <FileText className="size-10 opacity-30" />
+        <p className="text-sm">Chưa có bài viết nào.</p>
+      </div>
     )
   }
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Tiêu đề</TableHead>
-          <TableHead>Danh mục</TableHead>
-          <TableHead>Trạng thái</TableHead>
-          <TableHead>Cập nhật</TableHead>
-          <TableHead className="text-right">Thao tác</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {posts.map((p) => (
-          <TableRow key={p.id}>
-            <TableCell className="font-medium">{p.title}</TableCell>
-            <TableCell>{p.category}</TableCell>
-            <TableCell>
-              {p.published ? (
-                <Badge>Đã xuất bản</Badge>
-              ) : (
-                <Badge variant="secondary">Bản nháp</Badge>
-              )}
-            </TableCell>
-            <TableCell>{formatDateVi(p.updatedAt)}</TableCell>
-            <TableCell className="flex justify-end gap-2">
-              <Button asChild variant="outline" size="sm">
-                <Link href={`/admin/posts/${p.id}/edit`}>Sửa</Link>
-              </Button>
-              <DeleteButton onDelete={deletePost.bind(null, p.id)} itemName={p.title} />
-            </TableCell>
+    <div className="overflow-x-auto rounded-lg border">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Tiêu đề</TableHead>
+            <TableHead>Danh mục</TableHead>
+            <TableHead>Trạng thái</TableHead>
+            <TableHead>Cập nhật</TableHead>
+            <TableHead className="text-right">Thao tác</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {posts.map((p) => (
+            <TableRow key={p.id}>
+              <TableCell className="font-medium">{p.title}</TableCell>
+              <TableCell>{p.category}</TableCell>
+              <TableCell>
+                {p.published ? (
+                  <Badge>Đã xuất bản</Badge>
+                ) : (
+                  <Badge variant="secondary">Bản nháp</Badge>
+                )}
+              </TableCell>
+              <TableCell className="whitespace-nowrap">{formatDateVi(p.updatedAt)}</TableCell>
+              <TableCell className="flex justify-end gap-2">
+                <Button asChild variant="outline" size="sm">
+                  <Link href={`/admin/posts/${p.id}/edit`}>Sửa</Link>
+                </Button>
+                <DeleteButton onDelete={deletePost.bind(null, p.id)} itemName={p.title} />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   )
 }

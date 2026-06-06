@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { RoomForm } from '@/components/admin/RoomForm'
+import { PageHeader } from '@/components/admin/PageHeader'
 
 export default async function EditRoomPage({
   params,
@@ -16,7 +17,7 @@ export default async function EditRoomPage({
   if (!room) notFound()
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-bold">Sửa phòng</h1>
+      <PageHeader title="Sửa phòng" backHref="/admin/rooms" backLabel="Phòng" />
       <RoomForm initialData={room} />
       <div className="flex max-w-3xl flex-col gap-2">
         <h2 className="text-lg font-semibold">

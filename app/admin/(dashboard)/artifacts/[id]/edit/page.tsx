@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { ArtifactForm } from '@/components/admin/ArtifactForm'
+import { PageHeader } from '@/components/admin/PageHeader'
 
 export default async function EditArtifactPage({
   params,
@@ -15,7 +16,7 @@ export default async function EditArtifactPage({
   if (!artifact) notFound()
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-bold">Sửa hiện vật</h1>
+      <PageHeader title="Sửa hiện vật" backHref="/admin/artifacts" backLabel="Hiện vật" />
       <ArtifactForm rooms={rooms} initialData={artifact} />
     </div>
   )

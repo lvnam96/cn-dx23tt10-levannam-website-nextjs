@@ -160,7 +160,7 @@ export function ArtifactForm({
           control={form.control}
           name="featured"
           render={({ field }) => (
-            <FormItem className="flex items-center gap-3">
+            <FormItem className="flex flex-row items-center justify-between gap-3">
               <FormLabel>Nổi bật (hiển thị trang chủ)</FormLabel>
               <FormControl>
                 <Switch checked={field.value} onCheckedChange={field.onChange} />

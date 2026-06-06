@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
 import { Button } from '@/components/ui/button'
 import { ExhibitionsTable } from '@/components/admin/ExhibitionsTable'
+import { PageHeader } from '@/components/admin/PageHeader'
 
 export default async function AdminExhibitionsPage() {
   const exhibitions = await prisma.exhibition.findMany({
@@ -10,12 +11,14 @@ export default async function AdminExhibitionsPage() {
   })
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Triển lãm</h1>
-        <Button asChild>
-          <Link href="/admin/exhibitions/new">Tạo triển lãm</Link>
-        </Button>
-      </div>
+      <PageHeader
+        title="Triển lãm"
+        action={
+          <Button asChild>
+            <Link href="/admin/exhibitions/new">Tạo triển lãm</Link>
+          </Button>
+        }
+      />
       <ExhibitionsTable exhibitions={exhibitions} />
     </div>
   )

@@ -30,20 +30,16 @@ const CLD = {
   khuonVien2: cld('den-tho-bac/khuon-vien-2'),
   khuonVien3: cld('den-tho-bac/khuon-vien-3'),
 
-  // Artifact-specific — altar items, furnishings, stilt house
-  luHuongDong: cld('den-tho-bac/lu-huong-dong'), // lư hương đồng close-up
-  luHuongDenTho: cld('den-tho-bac/lu-huong-den-tho'), // lư hương tại điện thờ
-  binhHoaSu: cld('den-tho-bac/binh-hoa-su'), // lọ hoa sứ bàn thờ
-  banThoNoiThat: cld('den-tho-bac/ban-tho-noi-that'), // bàn thờ gỗ khảm xà cừ
+  // Artifact-specific
   khamXaCu: cld('den-tho-bac/kham-xa-cu'), // khảm xà cừ close-up
   binhPhongKham: cld('den-tho-bac/binh-phong-kham'), // bình phong sơn mài
-  chanDenDong: cld('den-tho-bac/chan-den-dong'), // chân đèn đồng
+  tranhChanDung: cld('den-tho-bac/tranh-chan-dung-bac'), // tranh sơn dầu chân dung Bác Hồ
   nhaSanNoiThat: cld('den-tho-bac/nha-san-noi-that'), // nhà sàn nội thất
   nhaSanNgoaiThat: cld('den-tho-bac/nha-san-ngoai-that'), // nhà sàn ngoại thất
 };
 
 async function seedAdmin() {
-  const email = 'admin@den-tho-bac.local';
+  const email = 'admin@den-tho-bac.vn';
   const password = 'admin123';
   const hashedPassword = await bcrypt.hash(password, 10);
   await prisma.user.upsert({
@@ -64,7 +60,7 @@ async function seedFeatures() {
   await prisma.room.deleteMany();
 
   // ── Rooms ──────────────────────────────────────────────────────────────────
-  const [roomDienTho, roomNhaTrungBay, roomNhaSan, roomQuanSu, roomKhuonVien] = await Promise.all([
+  const [roomDienTho, roomNhaTrungBay, , roomQuanSu, roomKhuonVien] = await Promise.all([
     prisma.room.create({
       data: {
         name: 'Điện thờ (Đền chính)',
@@ -104,55 +100,19 @@ async function seedFeatures() {
 
   // ── Artifacts ──────────────────────────────────────────────────────────────
   const artifacts = await Promise.all([
-    // 1. Lư hương đồng (featured)
-    prisma.artifact.create({
-      data: {
-        name: 'Lư hương đồng',
-        description:
-          'Bộ lư hương và bình hương bằng đồng đặt trang nghiêm trên bàn thờ chính điện, được đúc thủ công với hoa văn cách điệu hoa sen — biểu tượng thanh tịnh và lòng kính ngưỡng. Bình hương dùng để cắm hương que trong các lễ dâng hương, còn lư hương đốt trầm liên tục, tạo không khí trang nghiêm cho điện thờ. Cả bộ được chế tác tinh xảo với các đường nét chạm khắc hoa văn truyền thống.',
-        category: 'Đồ thờ',
-        images: [CLD.luHuongDong, CLD.luHuongDenTho],
-        featured: true,
-        roomId: roomDienTho.id,
-      },
-    }),
-    // 2. Lọ hoa sứ
-    prisma.artifact.create({
-      data: {
-        name: 'Lọ hoa sứ bàn thờ',
-        description:
-          'Đôi lọ hoa sứ men trắng đặt hai bên bàn thờ, thường được cắm hoa tươi dâng kính Bác Hồ nhân các dịp lễ trọng. Dáng bình cao thanh mảnh, thân trang trí hoa văn cổ điển màu lam, là hiện vật trang thờ tiêu biểu của các đền thờ Nam Bộ.',
-        category: 'Đồ thờ',
-        images: [CLD.binhHoaSu],
-        featured: false,
-        roomId: roomDienTho.id,
-      },
-    }),
-    // 3. Tranh sơn dầu (featured)
+    // 1. Tranh sơn dầu (featured)
     prisma.artifact.create({
       data: {
         name: 'Tranh sơn dầu chân dung Bác Hồ',
         description:
           'Bức tranh sơn dầu khổ lớn đặt tại vị trí trung tâm điện thờ, thể hiện chân dung Chủ tịch Hồ Chí Minh trong bộ quần áo ka-ki giản dị. Đây là tác phẩm hội họa có giá trị nghệ thuật cao, được trao tặng bởi các họa sĩ Nam Bộ sau ngày đất nước thống nhất.',
         category: 'Tác phẩm nghệ thuật',
-        images: [CLD.dienThoNghiem],
-        featured: true,
-        roomId: roomDienTho.id,
-      },
-    }),
-    // 4. Bàn thờ gỗ
-    prisma.artifact.create({
-      data: {
-        name: 'Bàn thờ gỗ khảm xà cừ',
-        description:
-          'Hai bàn thờ gỗ quý chạm khảm xà cừ với hoa văn tứ linh (long, lân, quy, phụng) và hoa văn truyền thống Nam Bộ. Được chế tác bởi các nghệ nhân tỉnh Trà Vinh, trao tặng khu di tích vào năm 1989 sau khi được công nhận di tích quốc gia.',
-        category: 'Đồ nội thất',
-        images: [CLD.banThoNoiThat],
+        images: [CLD.tranhChanDung],
         featured: false,
         roomId: roomDienTho.id,
       },
     }),
-    // 5. Tủ hương gỗ
+    // 2. Tủ hương gỗ
     prisma.artifact.create({
       data: {
         name: 'Tủ hương gỗ khảm xà cừ',
@@ -164,7 +124,7 @@ async function seedFeatures() {
         roomId: roomDienTho.id,
       },
     }),
-    // 6. Bình phong
+    // 3. Bình phong
     prisma.artifact.create({
       data: {
         name: 'Bộ bình phong',
@@ -176,31 +136,7 @@ async function seedFeatures() {
         roomId: roomDienTho.id,
       },
     }),
-    // 7. Chân đèn đồng
-    prisma.artifact.create({
-      data: {
-        name: 'Chân đèn đồng',
-        description:
-          'Đôi chân đèn bằng đồng đặt hai bên bàn thờ để thắp nến trong các nghi lễ dâng hương. Được đúc thủ công theo truyền thống nghề đồng Việt Nam, thân chân đèn có hoa văn hình trụ cách điệu, bệ đứng vững chắc — biểu tượng ánh sáng soi đường và sự trường tồn của tinh thần.',
-        category: 'Đồ thờ',
-        images: [CLD.chanDenDong],
-        featured: false,
-        roomId: roomDienTho.id,
-      },
-    }),
-    // 8. Bộ ấm trà (featured)
-    prisma.artifact.create({
-      data: {
-        name: 'Bộ ấm trà gốm Chủ tịch Hồ Chí Minh',
-        description:
-          'Bộ ấm trà gốm sứ truyền thống — phiên bản tái hiện bộ ấm trà Bác Hồ thường dùng khi làm việc tại Hà Nội, trưng bày trong nhà sàn mô hình. Ấm có nắp dạng bầu tròn, 4 chén nhỏ, màu men ngà sữa với đường viền hoa xanh coban.',
-        category: 'Đồ dùng cá nhân',
-        images: [CLD.nhaSanNoiThat, CLD.nhaSanNgoaiThat],
-        featured: true,
-        roomId: roomNhaSan.id,
-      },
-    }),
-    // 9. Máy bay (featured)
+    // 4. Máy bay (featured)
     prisma.artifact.create({
       data: {
         name: 'Máy bay trực thăng (bị bắn hạ)',
@@ -212,19 +148,7 @@ async function seedFeatures() {
         roomId: roomQuanSu.id,
       },
     }),
-    // 10. Pháo và súng
-    prisma.artifact.create({
-      data: {
-        name: 'Bộ sưu tập pháo và súng quân sự',
-        description:
-          'Bộ sưu tập vũ khí thu được từ chiến trường, bao gồm pháo hạng nặng, súng máy và các loại vũ khí hạng nhẹ. Tất cả đều là chiến lợi phẩm của quân dân tỉnh Trà Vinh sau các trận đánh lịch sử. Được bảo quản và trưng bày ngoài trời trong khu vực di tích.',
-        category: 'Vũ khí chiến tranh',
-        images: [CLD.mayBaySung],
-        featured: false,
-        roomId: roomQuanSu.id,
-      },
-    }),
-    // 11. Tài liệu lịch sử
+    // 5. Tài liệu lịch sử
     prisma.artifact.create({
       data: {
         name: 'Bộ sưu tập hình ảnh và tài liệu lịch sử',
@@ -232,11 +156,11 @@ async function seedFeatures() {
           'Hơn 200 ảnh tư liệu, bản đồ, văn bản lịch sử về hành trình hoạt động cách mạng của Chủ tịch Hồ Chí Minh từ thuở thiếu thời đến khi lãnh đạo cuộc kháng chiến giành độc lập dân tộc. Đây là tài sản quý giá được sưu tầm từ nhiều nguồn tư liệu trong và ngoài nước.',
         category: 'Tài liệu',
         images: [CLD.khuTrungBayAnh, CLD.nhaTrungBay],
-        featured: false,
+        featured: true,
         roomId: roomNhaTrungBay.id,
       },
     }),
-    // 12. Ao cá Bác Hồ
+    // 6. Ao cá Bác Hồ
     prisma.artifact.create({
       data: {
         name: 'Ao cá Bác Hồ',
@@ -244,7 +168,7 @@ async function seedFeatures() {
           'Ao cá rộng hơn 500 m², được thiết kế theo mô hình ao cá tại Phủ Chủ tịch Hà Nội — nơi Bác Hồ thường ra cho cá ăn. Ao cá là điểm tham quan yêu thích của du khách, đặc biệt các đoàn thiếu nhi. Xung quanh ao trồng nhiều loại cây xanh tạo bóng mát.',
         category: 'Tài liệu',
         images: [CLD.aoCa, CLD.khuonVien],
-        featured: false,
+        featured: true,
         roomId: roomKhuonVien.id,
       },
     }),
@@ -299,23 +223,20 @@ async function seedFeatures() {
   ]);
 
   // ── Artifact ↔ Exhibition links ────────────────────────────────────────────
-  // indices after removing Bình hương: [0]Lư hương [1]Lọ hoa sứ [2]Tranh [3]Bàn thờ [4]Tủ hương [5]Bình phong [6]Chân đèn [7]Bộ ấm trà [8]Máy bay [9]Pháo [10]Tài liệu [11]Ao cá
-  const [a1, a2, a3, a4, , , a7, , a9, , a11] = artifacts;
+  // [0]Tranh [1]Tủ hương [2]Bình phong [3]Máy bay [4]Tài liệu [5]Ao cá
+  const [a1, , , a4, a5] = artifacts;
   await prisma.artifactOnExhibition.createMany({
     data: [
-      // Permanent exhibition: altar items + artwork + documents
-      { artifactId: a1.id, exhibitionId: exPermanent.id }, // Lư hương đồng
-      { artifactId: a3.id, exhibitionId: exPermanent.id }, // Tranh sơn dầu
-      { artifactId: a4.id, exhibitionId: exPermanent.id }, // Bàn thờ gỗ
-      { artifactId: a11.id, exhibitionId: exPermanent.id }, // Tài liệu lịch sử
-      // 56 năm: historical models + documents
-      { artifactId: a11.id, exhibitionId: ex56Nam.id }, // Tài liệu lịch sử
-      { artifactId: a9.id, exhibitionId: ex56Nam.id }, // Máy bay
-      // Bác Hồ - Bác Tôn: decorative items
-      { artifactId: a2.id, exhibitionId: exBacTon.id }, // Lọ hoa sứ
-      { artifactId: a7.id, exhibitionId: exBacTon.id }, // Chân đèn đồng
-      // Đảng CSVN: altar items
-      { artifactId: a1.id, exhibitionId: exDang.id }, // Lư hương đồng
+      // Permanent: painting + documents
+      { artifactId: a1.id, exhibitionId: exPermanent.id }, // Tranh sơn dầu
+      { artifactId: a5.id, exhibitionId: exPermanent.id }, // Tài liệu lịch sử
+      // 56 năm: documents + helicopter
+      { artifactId: a5.id, exhibitionId: ex56Nam.id }, // Tài liệu lịch sử
+      { artifactId: a4.id, exhibitionId: ex56Nam.id }, // Máy bay
+      // Bác Hồ - Bác Tôn: painting
+      { artifactId: a1.id, exhibitionId: exBacTon.id }, // Tranh sơn dầu
+      // Đảng CSVN: documents
+      { artifactId: a5.id, exhibitionId: exDang.id }, // Tài liệu lịch sử
     ],
   });
 
@@ -496,9 +417,7 @@ async function seedFeatures() {
     ],
   });
 
-  console.log(
-    'Seeded: 5 rooms, 12 artifacts (4 featured), 8 posts, 4 exhibitions (2 ongoing), 6 tour groups, 5 contacts'
-  );
+  console.log('Seeded: 5 rooms, 6 artifacts (2 featured), 8 posts, 4 exhibitions, 6 tour groups, 5 contacts');
 }
 
 async function main() {

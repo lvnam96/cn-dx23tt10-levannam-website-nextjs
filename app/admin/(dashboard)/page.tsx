@@ -1,26 +1,17 @@
-import Link from 'next/link'
-import {
-  FileText,
-  Landmark,
-  DoorOpen,
-  Images,
-  ClipboardList,
-  Mail,
-  ArrowRight,
-} from 'lucide-react'
-import { prisma } from '@/lib/prisma'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import Link from 'next/link';
+import { FileText, Landmark, DoorOpen, Images, ClipboardList, Mail, ArrowRight } from 'lucide-react';
+import { prisma } from '@/lib/prisma';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export default async function AdminDashboard() {
-  const [posts, artifacts, rooms, exhibitions, pendingTours, contacts] =
-    await Promise.all([
-      prisma.post.count(),
-      prisma.artifact.count(),
-      prisma.room.count(),
-      prisma.exhibition.count(),
-      prisma.tourGroup.count({ where: { status: 'PENDING' } }),
-      prisma.contact.count(),
-    ])
+  const [posts, artifacts, rooms, exhibitions, pendingTours, contacts] = await Promise.all([
+    prisma.post.count(),
+    prisma.artifact.count(),
+    prisma.room.count(),
+    prisma.exhibition.count(),
+    prisma.tourGroup.count({ where: { status: 'PENDING' } }),
+    prisma.contact.count(),
+  ]);
 
   const stats = [
     {
@@ -55,7 +46,7 @@ export default async function AdminDashboard() {
       label: 'Đăng ký chờ duyệt',
       value: pendingTours,
       icon: ClipboardList,
-      href: '/admin/tours',
+      href: '/admin/tours?status=PENDING',
       iconClass: 'bg-orange-50 text-orange-600 dark:bg-orange-950 dark:text-orange-400',
     },
     {
@@ -65,7 +56,7 @@ export default async function AdminDashboard() {
       href: '/admin/contacts',
       iconClass: 'bg-rose-50 text-rose-600 dark:bg-rose-950 dark:text-rose-400',
     },
-  ]
+  ];
 
   return (
     <div className="flex flex-col gap-6">
@@ -96,5 +87,5 @@ export default async function AdminDashboard() {
         ))}
       </div>
     </div>
-  )
+  );
 }
